@@ -1,24 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useCallback } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+
+import { Navigation } from "./Navigation/Navigation";
+import { Home } from "./HomePage/Home";
+import { Editorials } from "./Editorials/Editorials";
+import { Write } from "./WriteEditorials/Write";
+import { Login } from "./Authentication/pages/Login";
+import { AuthContext } from "./Authentication/AuthContext";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const login = useCallback(() => {
+    setIsLoggedIn(true);
+  }, []);
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
+
+  let routes;
+
+  if (!isLoggedIn) {
+    routes = (
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/editorials" exact>
+          <Editorials />
+        </Route>
+        <Route path="/login" exact>
+          <Login />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
+  } else {
+    routes = (
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/editorials" exact>
+          <Editorials />
+        </Route>
+        <Route path="/write" exact>
+          <Write />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContext.Provider
+      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+    >
+      <Router>
+        <Navigation />
+        <main>{routes}</main>
+      </Router>
+    </AuthContext.Provider>
   );
 }
 
