@@ -21,11 +21,13 @@ export const Write = () => {
 
   const [problemLink, setProblemLink] = useState("");
   const [name, setName] = useState("");
-  const [contestId, setContestId] = useState("");
-  const [problemTags, setProblemTags] = useState(null);
-  const [difficultyLevel, setDifficultyLevel] = useState("");
   const [editorialDesc, setEditorialDesc] = useState("");
   const [editorialCode, setEditorialCode] = useState("");
+
+  let ptags = null,
+    dl = 0,
+    cid = 0,
+    accepted = false;
 
   const onCodeEditorStateChange = (newValue) => {
     setEditorialCode(newValue);
@@ -33,26 +35,60 @@ export const Write = () => {
 
   const writeEditorialHandler = async (event) => {
     event.preventDefault();
-    // validations and authentications to be added
+    await validations();
+    if (accepted) {
+      try {
+        // console.log(cid, ptags, dl, accepted);
+        const response = await fetch(
+          "http://localhost:8000/user/write/editorial",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              email: auth.user.email,
+              problemLink: problemLink,
+              name: name,
+              contestId: cid,
+              problemTags: ptags,
+              difficultyLevel: dl,
+              editorialDesc: editorialDesc,
+              editorialCode: editorialCode,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const responseData = await response.json();
+        // console.log(responseData);
+        if (responseData.msg) {
+          throw new Error(responseData.msg);
+        }
+        history.push("/");
+      } catch (err) {
+        alert(err + " try again");
+      }
+    }
+  };
+
+  const validations = async () => {
     try {
       const codeforcesDetails = await fetch(
         `https://codeforces.com/api/user.status?handle=${codeforces}`
       );
       const responseData = await codeforcesDetails.json();
 
-      console.log(problemLink.length);
-
       // contestId from problemLink
-      let contestId = "";
+      let contestIdPL = "";
       for (let i = 0; i < problemLink.length; i++) {
         if (problemLink.charAt(i) >= "0" && problemLink.charAt(i) <= "9") {
-          contestId += problemLink.charAt(i);
+          contestIdPL += problemLink.charAt(i);
         }
-        if (contestId !== "" && problemLink.charAt(i) === "/") {
+        if (contestIdPL !== "" && problemLink.charAt(i) === "/") {
           break;
         }
       }
-      setContestId(contestId);
+      cid = contestIdPL;
+      // console.log(cid);
 
       // problemCode from problemLink
       let problemCode = "";
@@ -65,18 +101,23 @@ export const Write = () => {
 
       // check if the user has submitted the question or not
       const results = responseData.result;
-      let accepted = false;
-      contestId = parseInt(contestId);
+      contestIdPL = parseInt(contestIdPL);
       for (let i = 0; i < results.length; i++) {
         if (
-          results[i].contestId === contestId &&
+          results[i].contestId === contestIdPL &&
           results[i].problem.index === problemCode &&
           results[i].verdict === "OK"
         ) {
           accepted = true;
+          // console.log(accepted);
+          // setAccepted(true);
           // problemTags & difficulty from responseData
-          setProblemTags(results[i].problem.tags);
-          setDifficultyLevel(results[i].problem.rating);
+          // setProblemTags(results[i].problem.tags);
+          ptags = results[i].problem.tags;
+          // console.log(ptags);
+          // setDifficultyLevel(results[i].problem.rating);
+          dl = results[i].problem.rating;
+          // console.log(dl);
         }
         if (accepted) {
           break;
@@ -89,34 +130,6 @@ export const Write = () => {
     } catch (error) {
       alert(error);
       return;
-    }
-    try {
-      const response = await fetch(
-        "http://localhost:8000/user/write/editorial",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            problemLink: problemLink,
-            name: name,
-            contestId: contestId,
-            problemTags: problemTags,
-            difficultyLevel: difficultyLevel,
-            editorialDesc: editorialDesc,
-            editorialCode: editorialCode,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // const responseData = await response.json();
-      // if (responseData.msg) {
-      //   throw new Error(responseData.msg);
-      // }
-      // history.push("/");
-    } catch (err) {
-      console.log("yaha");
-      alert(err + " try again");
     }
   };
 
@@ -132,7 +145,9 @@ export const Write = () => {
               placeholder="enter problem link"
               className="form-control"
               value={problemLink}
-              onChange={(e) => setProblemLink(e.target.value)}
+              onChange={(e) => {
+                setProblemLink(e.target.value);
+              }}
               required
             />
             <input
