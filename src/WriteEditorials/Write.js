@@ -20,14 +20,15 @@ export const Write = () => {
   const history = useHistory();
 
   const [problemLink, setProblemLink] = useState("");
-  const [name, setName] = useState("");
   const [editorialDesc, setEditorialDesc] = useState("");
   const [editorialCode, setEditorialCode] = useState("");
 
   let ptags = null,
     dl = 0,
     cid = 0,
-    accepted = false;
+    accepted = false,
+    ptitle = "",
+    programmingLanguage = "";
 
   const onCodeEditorStateChange = (newValue) => {
     setEditorialCode(newValue);
@@ -46,12 +47,13 @@ export const Write = () => {
             body: JSON.stringify({
               email: auth.user.email,
               problemLink: problemLink,
-              name: name,
+              name: ptitle,
               contestId: cid,
               problemTags: ptags,
               difficultyLevel: dl,
               editorialDesc: editorialDesc,
               editorialCode: editorialCode,
+              programmingLanguage: programmingLanguage,
             }),
             headers: {
               "Content-Type": "application/json",
@@ -76,7 +78,6 @@ export const Write = () => {
         `https://codeforces.com/api/user.status?handle=${codeforces}`
       );
       const responseData = await codeforcesDetails.json();
-
       // contestId from problemLink
       let contestIdPL = "";
       for (let i = 0; i < problemLink.length; i++) {
@@ -118,6 +119,8 @@ export const Write = () => {
           // setDifficultyLevel(results[i].problem.rating);
           dl = results[i].problem.rating;
           // console.log(dl);
+          ptitle = results[i].problem.name;
+          programmingLanguage = results[i].programmingLanguage;
         }
         if (accepted) {
           break;
@@ -136,7 +139,9 @@ export const Write = () => {
   return (
     <div className="center">
       <article className="form">
-        <h3 style={{ color: "black" }}>Write your Editorial here!</h3>
+        <h3 className="form-title" style={{ color: "black" }}>
+          Write your Editorial here!
+        </h3>
         <form name="writeEditorial" onSubmit={writeEditorialHandler}>
           <div className="form-group">
             <input
@@ -148,15 +153,6 @@ export const Write = () => {
               onChange={(e) => {
                 setProblemLink(e.target.value);
               }}
-              required
-            />
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter Editorial Title"
-              className="form-control"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
               required
             />
             <textarea
@@ -174,6 +170,7 @@ export const Write = () => {
                 theme="dracula"
                 onChange={onCodeEditorStateChange}
                 name="UNIQUE_ID_OF_DIV"
+                className="ace-code-editor"
               />
             </div>
           </div>

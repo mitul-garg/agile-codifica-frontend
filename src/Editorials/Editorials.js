@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 
+import { Editorial } from "../shared/UIElements/Editorial";
+
+import "./Editorials.css";
+
 export const Editorials = () => {
   const [editorials, setEditorials] = useState(null);
 
@@ -22,11 +26,35 @@ export const Editorials = () => {
   return (
     <div className="home-page">
       <div>
-        <h1>EDITORIALS</h1>
-        {editorials &&
-          editorials.map((editorial, index) => (
-            <h2 key={index}>{editorial.title}</h2>
-          ))}
+        <h1 className="page-title">EDITORIALS</h1>
+        {editorials && (
+          <div className="editorial-container">
+            {editorials.map((editorial) => {
+              const {
+                _id,
+                title,
+                contestId,
+                problemTags,
+                difficultyLevel,
+                editorialCode,
+                editorialDesc,
+                programmingLanguage,
+              } = editorial;
+              return (
+                <Editorial
+                  key={_id}
+                  title={title}
+                  contestId={contestId}
+                  problemTags={problemTags}
+                  difficultyLevel={difficultyLevel}
+                  editorialCode={editorialCode}
+                  editorialDesc={editorialDesc}
+                  programmingLanguage={programmingLanguage}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../Authentication/AuthContext";
+import { Editorial } from "../shared/UIElements/Editorial";
 
 export const Home = () => {
   const auth = useContext(AuthContext);
@@ -32,14 +33,36 @@ export const Home = () => {
     <div className="home-page">
       {!auth.isLoggedIn && <h1>NOT LOGGED IN</h1>}
       {auth.isLoggedIn && (
-        <div>
-          <h1>YOUR EDITORIALS</h1>
-          {editorials &&
-            editorials.map((editorial, index) => (
-              <h2 key={index}>
-                {editorial.title} + {editorial.problemTags}
-              </h2>
-            ))}
+        <div className="editorials">
+          <h1 className="page-title">YOUR EDITORIALS</h1>
+          {editorials && (
+            <div className="editorial-container">
+              {editorials.map((editorial) => {
+                const {
+                  _id,
+                  title,
+                  contestId,
+                  problemTags,
+                  difficultyLevel,
+                  editorialCode,
+                  editorialDesc,
+                  programmingLanguage,
+                } = editorial;
+                return (
+                  <Editorial
+                    key={_id}
+                    title={title}
+                    contestId={contestId}
+                    problemTags={problemTags}
+                    difficultyLevel={difficultyLevel}
+                    editorialCode={editorialCode}
+                    editorialDesc={editorialDesc}
+                    programmingLanguage={programmingLanguage}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
     </div>

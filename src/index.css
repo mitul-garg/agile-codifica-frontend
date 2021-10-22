@@ -2,6 +2,8 @@
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -40,4 +42,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.page-title {
+  margin-bottom: 2.5rem;
+  color: whitesmoke;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.form-title {
+  margin-bottom: 15px;
 }

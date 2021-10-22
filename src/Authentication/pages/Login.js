@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router";
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 import { AuthContext } from "../AuthContext";
 
@@ -18,6 +19,9 @@ export const Login = () => {
   const [signupPassword, setSignupPassword] = useState("");
   const [signupCodeforces, setSignupCodeforces] = useState("");
   // signup
+
+  // showpassword
+  const [showPassword, setShowPassword] = useState(false);
 
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -81,7 +85,9 @@ export const Login = () => {
     <div className="login-signup">
       {isLoginMode && (
         <article className="form">
-          <h3 style={{ color: "black" }}>Login</h3>
+          <h3 className="form-title" style={{ color: "black" }}>
+            Login
+          </h3>
           <form name="login" onSubmit={loginSubmitHandler}>
             <div className="form-group">
               <input
@@ -93,15 +99,29 @@ export const Login = () => {
                 onChange={(e) => setLoginEmail(e.target.value)}
                 required
               />
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                className="form-control"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                required
-              />
+              <div className="password-holder">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="password"
+                  className="form-control"
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  required
+                />
+                {!showPassword && (
+                  <BsFillEyeFill
+                    className="eye-icon"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  />
+                )}
+                {showPassword && (
+                  <BsFillEyeSlashFill
+                    className="eye-icon"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  />
+                )}
+              </div>
             </div>
             <button type="submit" className="submit-btn">
               login
@@ -111,7 +131,9 @@ export const Login = () => {
       )}
       {!isLoginMode && (
         <article className="form">
-          <h3 style={{ color: "black" }}>Sign Up</h3>
+          <h3 className="form-title" style={{ color: "black" }}>
+            Sign Up
+          </h3>
           <form name="login" onSubmit={signupSubmitHandler}>
             <div className="form-group">
               <input
@@ -132,15 +154,29 @@ export const Login = () => {
                 onChange={(e) => setSignupCodeforces(e.target.value)}
                 required
               />
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                className="form-control"
-                value={signupPassword}
-                onChange={(e) => setSignupPassword(e.target.value)}
-                required
-              />
+              <div className="password-holder">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="password"
+                  className="form-control"
+                  value={signupPassword}
+                  onChange={(e) => setSignupPassword(e.target.value)}
+                  required
+                />
+                {!showPassword && (
+                  <BsFillEyeFill
+                    className="eye-icon"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  />
+                )}
+                {showPassword && (
+                  <BsFillEyeSlashFill
+                    className="eye-icon"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  />
+                )}
+              </div>
             </div>
             <button type="submit" className="submit-btn">
               signup

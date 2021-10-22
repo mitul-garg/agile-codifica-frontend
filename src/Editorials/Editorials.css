@@ -1,0 +1,10 @@
+.editorial-page-title {
+  text-align: center;
+}
+.editorial-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  place-items: center;
+  gap: 1.5rem;
+}

@@ -79,3 +79,17 @@
   color: hsl(184, 91%, 17%);
   background-color: hsl(184, 80%, 74%);
 }
+
+.password-holder {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+.eye-icon {
+  font-size: 1.25rem;
+  color: black;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
