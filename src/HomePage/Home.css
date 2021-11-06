@@ -1,0 +1,54 @@
+.home {
+  color: white;
+  letter-spacing: 1.2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  place-items: center;
+  gap: 1rem;
+}
+.home-title {
+  font-size: 2.5rem;
+}
+.home-para {
+  font-size: 1.25rem;
+}
+a {
+  text-decoration: none;
+}
+.home-btn {
+  display: block;
+  width: 100%;
+  background-color: #2caeba;
+  border: none;
+  color: #bff8fd;
+  cursor: pointer;
+  padding: 0.75rem 0.75rem;
+  font-size: 1rem;
+  margin-top: 1rem;
+  border-radius: 0.2rem;
+  text-transform: uppercase;
+  font-family: "Open Sans", sans-serif;
+  letter-spacing: 1px;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+}
+.home-btn:hover {
+  color: hsl(184, 91%, 17%);
+  background-color: hsl(184, 80%, 74%);
+}
+.laptop-icon {
+  font-size: 7.5rem;
+  color: hsl(184, 80%, 74%);
+}
+.language-icons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+.language-icon {
+  font-size: 2.25rem;
+}
+.language-icon:hover {
+  color: hsl(184, 80%, 74%);
+}

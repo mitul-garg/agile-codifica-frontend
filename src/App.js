@@ -12,6 +12,8 @@ import { Editorials } from "./Editorials/Editorials";
 import { Write } from "./WriteEditorials/Write";
 import { Login } from "./Authentication/pages/Login";
 import { AuthContext } from "./Authentication/AuthContext";
+import { MyEditorials } from "./MyEditorials/MyEditorials";
+import { UpdateEditorial } from "./MyEditorials/UpdateEditorial";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -53,6 +55,12 @@ function App() {
         </Route>
         <Route path="/write" exact>
           <Write />
+        </Route>
+        <Route path="/myeditorials" exact>
+          <MyEditorials />
+        </Route>
+        <Route path="/update/:id">
+          <UpdateEditorial />
         </Route>
         <Redirect to="/" />
       </Switch>

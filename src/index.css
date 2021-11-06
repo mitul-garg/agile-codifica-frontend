@@ -12,8 +12,8 @@ html {
 
 body {
   margin: 0;
-  background: #101720;
-  color: #ee6c4d;
+  /* background: #101720; */
+  background-color: #212529;
 }
 
 .slide-in-left-enter {

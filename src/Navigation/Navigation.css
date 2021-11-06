@@ -19,6 +19,7 @@
 
 .main-navigation__title {
   color: white;
+  text-transform: uppercase;
 }
 
 .main-navigation__title a {

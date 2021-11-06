@@ -8,14 +8,21 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/theme-dracula";
 
-// Text Editor
+import RingLoader from "react-spinners/RingLoader";
 
 import "./Write.css";
+
+const override = `
+  display: block;
+  margin: 10rem auto;
+`;
 
 export const Write = () => {
   const auth = useContext(AuthContext);
   const user = auth.user;
   const codeforces = user.codeforcesHandle;
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
 
@@ -36,6 +43,7 @@ export const Write = () => {
 
   const writeEditorialHandler = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     await validations();
     if (accepted) {
       try {
@@ -65,9 +73,11 @@ export const Write = () => {
         if (responseData.msg) {
           throw new Error(responseData.msg);
         }
+        setIsLoading(false);
         history.push("/");
       } catch (err) {
         alert(err + " try again");
+        setIsLoading(false);
       }
     }
   };
@@ -135,6 +145,10 @@ export const Write = () => {
       return;
     }
   };
+
+  if (isLoading) {
+    return <RingLoader color={"#88ebf2"} css={override} />;
+  }
 
   return (
     <div className="center">

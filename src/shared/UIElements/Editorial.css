@@ -1,14 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 .editorial {
-  background-color: #f8f8f8;
-  padding: 2rem;
-  color: black;
+  background: #212529;
+  box-shadow: 10px 10px 20px 6px rgba(0, 0, 0, 0.26);
+  padding: 1.2rem;
+  color: aliceblue;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-gap: 10px;
   place-items: center;
   width: 80vw;
-  border-radius: 10px;
-  border: 2px solid grey;
+  font-size: large;
+}
+.home-page {
+  margin-bottom: 2rem;
 }
 ul {
   list-style-type: none;
@@ -17,4 +21,37 @@ li {
   display: inline-block;
   margin: 5px;
   text-transform: capitalize;
+}
+.editorialDesc {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 75%;
+  letter-spacing: 1px;
+  font-family: "Noto Sans", sans-serif;
+}
+.edit-delete-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+.edit-delete-btns button {
+  display: block;
+  width: 100%;
+  background-color: #2caeba;
+  border: none;
+  color: #bff8fd;
+  cursor: pointer;
+  padding: 0.75rem 0.75rem;
+  font-size: 1rem;
+  margin-top: 1rem;
+  border-radius: 0.2rem;
+  text-transform: uppercase;
+  font-family: "Open Sans", sans-serif;
+  letter-spacing: 1px;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+}
+.edit-delete-btns button:hover {
+  color: hsl(184, 91%, 17%);
+  background-color: hsl(184, 80%, 74%);
 }
