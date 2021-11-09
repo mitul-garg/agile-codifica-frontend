@@ -74,7 +74,7 @@ export const Write = () => {
           throw new Error(responseData.msg);
         }
         setIsLoading(false);
-        history.push("/myeditorials");
+        history.push("/");
       } catch (err) {
         alert(err + " try again");
         setIsLoading(false);
