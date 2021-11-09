@@ -43,13 +43,13 @@ export const Write = () => {
 
   const writeEditorialHandler = async (event) => {
     event.preventDefault();
-    setIsLoading(true);
     await validations();
     if (accepted) {
+      setIsLoading(true);
       try {
         // console.log(cid, ptags, dl, accepted);
         const response = await fetch(
-          "http://localhost:8000/user/write/editorial",
+          `${process.env.REACT_APP_BACKEND_URL}/user/write/editorial`,
           {
             method: "POST",
             body: JSON.stringify({
@@ -74,12 +74,13 @@ export const Write = () => {
           throw new Error(responseData.msg);
         }
         setIsLoading(false);
-        history.push("/");
+        history.push("/myeditorials");
       } catch (err) {
         alert(err + " try again");
         setIsLoading(false);
       }
     }
+    // setIsLoading(false);
   };
 
   const validations = async () => {

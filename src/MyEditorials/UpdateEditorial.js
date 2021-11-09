@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
 
 // Ace Editor
@@ -17,11 +17,35 @@ export const UpdateEditorial = () => {
   const [editorialDesc, setEditorialDesc] = useState("");
   const [editorialCode, setEditorialCode] = useState("");
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const history = useHistory();
 
   const id = useParams().id;
+
+  const fetchEditorial = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/editorial/${id}`
+    );
+    const responseData = await response.json();
+    if (responseData.msg) {
+      throw new Error(responseData.msg);
+    }
+    onCodeEditorStateChange(responseData.editorialCode);
+    // console.log(responseData.editorialCode);
+    setEditorialDesc(responseData.editorialDesc);
+  };
+
+  useEffect(() => {
+    try {
+      fetchEditorial();
+      setIsLoading(false);
+    } catch (error) {
+      alert(error);
+      setIsLoading(false);
+    }
+  }, []);
+
   const onCodeEditorStateChange = (newValue) => {
     setEditorialCode(newValue);
   };
@@ -31,7 +55,7 @@ export const UpdateEditorial = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:8000/user/write/editorial",
+        `${process.env.REACT_APP_BACKEND_URL}/user/write/editorial`,
         {
           method: "PATCH",
           body: JSON.stringify({
@@ -81,6 +105,7 @@ export const UpdateEditorial = () => {
                 onChange={onCodeEditorStateChange}
                 name="UNIQUE_ID_OF_DIV"
                 className="ace-code-editor"
+                value={editorialCode}
               />
             </div>
           </div>

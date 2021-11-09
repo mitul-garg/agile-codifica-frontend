@@ -26,14 +26,14 @@ export const Editorial = ({
   const editHandler = () => {
     // console.log("edit");
     history.push(`/update/${id}`);
-    console.log(id);
+    // console.log(id);
   };
 
   const deleteHandler = async () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:8000/user/write/editorial",
+        `${process.env.REACT_APP_BACKEND_URL}/user/write/editorial`,
         {
           method: "DELETE",
           body: JSON.stringify({

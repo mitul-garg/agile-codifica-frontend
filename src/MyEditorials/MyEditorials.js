@@ -24,7 +24,7 @@ export const MyEditorials = () => {
         const user = auth.user;
         try {
           const response = await fetch(
-            `http://localhost:8000/user/editorials/${user.email}`
+            `${process.env.REACT_APP_BACKEND_URL}/user/editorials/${user.email}`
           );
           const responseData = await response.json();
           if (responseData.msg) {

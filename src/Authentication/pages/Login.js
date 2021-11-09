@@ -39,16 +39,19 @@ export const Login = () => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/login", {
-        method: "POST",
-        body: JSON.stringify({
-          email: loginEmail,
-          password: loginPassword,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/login`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: loginEmail,
+            password: loginPassword,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const responseData = await response.json();
       if (responseData.msg) {
         throw new Error(response.msg);
@@ -66,17 +69,20 @@ export const Login = () => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/signup", {
-        method: "POST",
-        body: JSON.stringify({
-          email: signupEmail,
-          password: signupPassword,
-          codeforcesHandle: signupCodeforces,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/signup`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: signupEmail,
+            password: signupPassword,
+            codeforcesHandle: signupCodeforces,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const responseData = await response.json();
       if (responseData.msg) {
         throw new Error(responseData.msg);

@@ -9,9 +9,13 @@ import "./Home.css";
 
 export const Home = () => {
   const auth = useContext(AuthContext);
+  // console.log(auth.user);
   return (
     <div className="home">
-      <h1 className="home-title">Welcome to Codifica</h1>
+      <h1 className="home-title">
+        Welcome
+        {auth.isLoggedIn ? " " + auth.user.codeforcesHandle : " to Codifica"}
+      </h1>
       <p className="home-para">
         Read and Write Unofficial Codeforces Editorials
       </p>

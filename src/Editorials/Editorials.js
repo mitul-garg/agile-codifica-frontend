@@ -21,7 +21,9 @@ export const Editorials = () => {
     const fetchEditorials = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`http://localhost:8000/editorials`);
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/editorials`
+        );
         const responseData = await response.json();
         if (responseData.msg) {
           throw new Error(responseData.msg);
